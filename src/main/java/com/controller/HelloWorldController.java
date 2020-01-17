@@ -23,7 +23,8 @@ public class HelloWorldController {
     }
 
     @GetMapping(path= "/hello-world-req-mapping-bean")
-    public List<UserDetails> userDetails(){
+    public List<UserDetails> userDetails() {
+        System.out.println("hello");
         List<UserDetails> userDetails = new ArrayList<>();
         UserDetails userDetails1 = new UserDetails("firstName", "lastName", "bhopal");
         userDetails.add(userDetails1);
