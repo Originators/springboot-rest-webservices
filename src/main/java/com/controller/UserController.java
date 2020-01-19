@@ -2,18 +2,24 @@ package com.controller;
 
 import com.entities.User;
 import com.exception.UserExistsException;
+import com.exception.UserNameNotFoundException;
 import com.exception.UserNotFoundException;
 import com.services.UserService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
+@Validated
 public class UserController {
 
     private UserService userService;
@@ -29,7 +35,7 @@ public class UserController {
     }
 
     @PostMapping(path = "/create-user")
-    public ResponseEntity<User> createUser(@RequestBody User user, UriComponentsBuilder builder) {
+    public ResponseEntity<User> createUser(@Valid @RequestBody User user, UriComponentsBuilder builder) {
         try{
             userService.createUser(user);
             HttpHeaders headers = new HttpHeaders();
@@ -42,7 +48,7 @@ public class UserController {
     }
 
     @GetMapping(path = "/get-user/{userId}")
-    public User getUserById(@PathVariable("userId") long userId) {
+    public Optional<User> getUserById( @Min(1) @PathVariable("userId") long userId) {
         try {
             return userService.getUserById(userId);
         } catch (UserNotFoundException e) {
@@ -65,9 +71,19 @@ public class UserController {
         userService.deleteUserById(userId);
     }
 
-    @GetMapping(path = "/users/byusername/{userId}")
-    public User getUserById(@PathVariable("userId") String userName) {
-        return userService.getUserByUserName(userName);
+    @GetMapping(path = "/users/byusername/{userName}")
+    public User getUserByUserName(@PathVariable("userName") String userName) throws UserNameNotFoundException {
+        User user = userService.getUserByUserName(userName);
+        if(user == null) {
+            throw new UserNameNotFoundException("user with username : " + userName + " is not found.");
+        }
+        return user;
+    }
+
+    @GetMapping("/exception-demo")
+    public void throwExceptionDemo(){
+        System.out.println("exception demo");
+        throw new NullPointerException();
     }
 
 

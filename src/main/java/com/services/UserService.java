@@ -32,15 +32,13 @@ public class UserService {
         return repository.save(user);
     }
 
-    public User getUserById(long userId) throws UserNotFoundException {
-          User user = null;
+    public Optional<User> getUserById(long userId) throws UserNotFoundException {
           Optional<User> op = repository.findById(userId);
           if(op.isPresent()) {
-              user = op.get();
+              return op;
           }else {
                 throw new UserNotFoundException("user with id " + userId + " is not found.");
           }
-          return user;
     }
 
     public User updateUserById(long userId, User user) throws UserNotFoundException {

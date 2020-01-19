@@ -1,6 +1,9 @@
 package com.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Entity(name = "user")
 @Table(name = "user_details")
@@ -11,9 +14,11 @@ public class User {
     private Long id;
 
     @Column(name = "user_name", length = 50, nullable = false, unique = true)
+    @NotEmpty(message = "username is mandatory. Please provide a user name")
     private String userName;
 
     @Column(name = "first_name", length = 50, nullable = false)
+    @Size(min = 2, message = "first name should have a min of 2 characters")
     private String firstName;
     private String lastName;
     private String email;
