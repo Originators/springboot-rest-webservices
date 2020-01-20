@@ -13,6 +13,7 @@ public class CustomGlobalRestExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public CustomErrorDetails handleException(Exception e) {
+        e.printStackTrace();
         return new CustomErrorDetails(new Date(), "From RestControllerAdvice", e.getMessage());
     }
 }
