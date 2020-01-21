@@ -1,5 +1,7 @@
 package com.entities;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
@@ -8,7 +10,7 @@ import java.util.List;
 
 @Entity(name = "user")
 @Table(name = "user_details")
-public class User {
+public class User extends RepresentationModel<User> {
 
     @Id
     @GeneratedValue
