@@ -53,4 +53,26 @@ public class UserMappingJacksonController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
     }
+
+    @GetMapping(path = "/params/{userId}")
+    public MappingJacksonValue getUserByIdParam(@Min(1) @PathVariable("userId") long userId, @RequestParam Set<String> propertiesToShow) {
+        try {
+            Optional<User> userOptional =  userService.getUserById(userId);
+            User user = userOptional.get();
+
+            FilterProvider filter = new SimpleFilterProvider()
+                    .addFilter("propertiesToDisplay",
+                            SimpleBeanPropertyFilter.filterOutAllExcept(propertiesToShow));
+
+            MappingJacksonValue mapper = new MappingJacksonValue(user);
+            mapper.setFilters(filter);
+            // url to invoke this
+            // localhost:8080/jacksonfilter/users/params/101?propertiesToShow=id, ssn
+
+            return mapper;
+        } catch (UserNotFoundException e) {
+            e.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        }
+    }
 }
