@@ -3,6 +3,7 @@ package com.entities;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.*;
@@ -16,30 +17,42 @@ import java.util.List;
                                                     // and causes multiple properties to be json ignored
                                                     //### static filtering
 
-@JsonFilter(value = "propertiesToDisplay")   // this is added for dynamic filtering
+// @JsonFilter(value = "propertiesToDisplay")   // this is added for dynamic filtering ** commented to add jsonview
 public class User extends RepresentationModel<User> {
 
     @Id
     @GeneratedValue
+    @JsonView(Views.External.class)
     private Long id;
 
     @Column(name = "user_name", length = 50, nullable = false, unique = true)
     @NotEmpty(message = "username is mandatory. Please provide a user name")
+    @JsonView(Views.External.class)
     private String userName;
 
     @Column(name = "first_name", length = 50, nullable = false)
     @Size(min = 2, message = "first name should have a min of 2 characters")
+    @JsonView(Views.External.class)
     private String firstName;
+
+    @JsonView(Views.External.class)
     private String lastName;
+
+    @JsonView(Views.External.class)
     private String email;
+
+    @JsonView(Views.Internal.class)
     private String role;
 
     @Column(name = "SSN", length = 50, nullable = false, unique = true)
    // @JsonIgnore // it is used to ignore the property from json, once this is done ssn part from json will be ignored
     // for put and post  //### static filtering
+
+    @JsonView(Views.Internal.class)
     private String ssn;
 
     @OneToMany(mappedBy = "user")
+    @JsonView(Views.Internal.class)
     private List<Order> orders;
 
     // no-arg constructor
