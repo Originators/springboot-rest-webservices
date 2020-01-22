@@ -1,5 +1,6 @@
 package com.entities;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.hateoas.RepresentationModel;
@@ -11,8 +12,11 @@ import java.util.List;
 
 @Entity(name = "user")
 @Table(name = "user_details")
-@JsonIgnoreProperties({"firstName", "lastName"})    // it is same as json ignore only diff is it is applied on class level
+// @JsonIgnoreProperties({"firstName", "lastName"})    // it is same as json ignore only diff is it is applied on class level
                                                     // and causes multiple properties to be json ignored
+                                                    //### static filtering
+
+@JsonFilter(value = "propertiesToDisplay")   // this is added for dynamic filtering
 public class User extends RepresentationModel<User> {
 
     @Id
@@ -31,8 +35,8 @@ public class User extends RepresentationModel<User> {
     private String role;
 
     @Column(name = "SSN", length = 50, nullable = false, unique = true)
-    @JsonIgnore // it is used to ignore the property from json, once this is done ssn part from json will be ignored
-    // for put and post
+   // @JsonIgnore // it is used to ignore the property from json, once this is done ssn part from json will be ignored
+    // for put and post  //### static filtering
     private String ssn;
 
     @OneToMany(mappedBy = "user")
