@@ -1,9 +1,11 @@
-package com.entities;
+package com.dtos;
 
+
+import com.entities.Order;
 
 import java.util.List;
 
-public class UserDTO {
+public class UserModelMapperDTO {
 
     private Long id;
     private String userName;

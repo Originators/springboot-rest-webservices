@@ -1,10 +1,10 @@
-package com.controller.modelmapper;
+package com.controller.mapstruct;
 
+import com.dtos.UserMapStructDTO;
 import com.entities.User;
-import com.dtos.UserModelMapperDTO;
 import com.exception.UserNotFoundException;
+import com.mappers.UserMapper;
 import com.services.UserService;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,30 +14,37 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.constraints.Min;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
 @Validated
-@RequestMapping(value = "/model-mapper/users")
-public class UserControllerModelMapper {
+@RequestMapping(value = "/map-struct/users")
+public class UserControllerMapStruct {
 
-    private ModelMapper modelMapper;
+    private UserMapper mapper;
     private UserService userService;
 
-    public UserControllerModelMapper(ModelMapper modelMapper, UserService userService) {
-        this.modelMapper = modelMapper;
+    public UserControllerMapStruct(UserMapper mapper, UserService userService) {
+        this.mapper = mapper;
         this.userService = userService;
     }
 
     @GetMapping(path = "/{userId}")
-    public UserModelMapperDTO getUserById(@Min(1) @PathVariable("userId") long userId) {
+    public UserMapStructDTO getUserById(@Min(1) @PathVariable("userId") long userId) {
         try {
             Optional<User> userOptional = userService.getUserById(userId);
             User user = userOptional.get();
-            return modelMapper.map(user, UserModelMapperDTO.class);
+            return mapper.userToUserMapStructDTO(user);
         } catch (UserNotFoundException e) {
             e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
     }
+
+    @GetMapping
+    public List<UserMapStructDTO> getAllUsers(){
+        return mapper.userToUserMapStructDTO(userService.getAllUsers());
+    }
+
 }
