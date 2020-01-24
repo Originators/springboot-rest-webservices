@@ -55,6 +55,8 @@ public class User extends RepresentationModel<User> {
     @JsonView(Views.Internal.class)
     private List<Order> orders;
 
+    @Column(name="address")
+    private String address;
     // no-arg constructor
 
     public User() {
@@ -63,13 +65,15 @@ public class User extends RepresentationModel<User> {
 
     // fields constructor
 
-    public User(String userName, String firstName, String lastName, String email, String role, String ssn) {
+    public User(String userName, String firstName, String lastName, String email, String role, String ssn, List<Order> orders, String address) {
         this.userName = userName;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.role = role;
         this.ssn = ssn;
+        this.orders = orders;
+        this.address = address;
     }
 
 
@@ -139,6 +143,14 @@ public class User extends RepresentationModel<User> {
         this.orders = orders;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     // to_string
 
 
@@ -152,6 +164,8 @@ public class User extends RepresentationModel<User> {
                 ", email='" + email + '\'' +
                 ", role='" + role + '\'' +
                 ", ssn='" + ssn + '\'' +
+                ", orders=" + orders +
+                ", address='" + address + '\'' +
                 '}';
     }
 }

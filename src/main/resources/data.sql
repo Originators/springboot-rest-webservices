@@ -1,6 +1,6 @@
-insert into USER_DETAILS values (101, 'test1@gmail.com', 'fName1', 'lName1', 'role1', 'ssn1', 'uName1');
-insert into USER_DETAILS values (102, 'test2@gmail.com', 'fName2', 'lName2', 'role2', 'ssn2', 'uName2');
-insert into USER_DETAILS values (103, 'test3@gmail.com', 'fName3', 'lName3', 'role3', 'ssn3', 'uName3');
+insert into USER_DETAILS values (101, 'address: USA', 'test1@gmail.com', 'fName1', 'lName1', 'role1', 'ssn1', 'uName1');
+insert into USER_DETAILS values (102, 'address: Germany', 'test2@gmail.com', 'fName2', 'lName2', 'role2', 'ssn2', 'uName2');
+insert into USER_DETAILS values (103, 'address: Canada', 'test3@gmail.com', 'fName3', 'lName3', 'role3', 'ssn3', 'uName3');
 
 insert into  ORDERS values (2001, 'Mobile', 101);
 insert into  ORDERS values (2002, 'Blanket', 101);
