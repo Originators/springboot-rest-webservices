@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.*;
@@ -12,6 +14,7 @@ import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity(name = "user")
+@ApiModel(description = "this model is for user entity")
 @Table(name = "user_details")
 // @JsonIgnoreProperties({"firstName", "lastName"})    // it is same as json ignore only diff is it is applied on class level
                                                     // and causes multiple properties to be json ignored
@@ -23,11 +26,13 @@ public class User extends RepresentationModel<User> {
     @Id
     @GeneratedValue
     @JsonView(Views.External.class)
+    @ApiModelProperty(notes = "this is auto generated unique Id", required = true, position = 1)
     private Long id;
 
     @Column(name = "user_name", length = 50, nullable = false, unique = true)
     @NotEmpty(message = "username is mandatory. Please provide a user name")
     @JsonView(Views.External.class)
+    @ApiModelProperty(notes = "this is username and should be unique", required = false, example = "test", position = 2)
     private String userName;
 
     @Column(name = "first_name", length = 50, nullable = false)
